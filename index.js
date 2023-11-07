@@ -23,7 +23,20 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+app.get("/", async (req, res) => {
+    try {
+        const result = await db.query("SELECT * FROM reviews");
+        res.render("index.ejs");
+    } catch (err) {
+        console.log(err);
+    }
+});
 
+// TODO:
+// - /add post route
+// - /edit route
+// - /delete route
+// - some kind of sorting function
 
 
 app.listen(port, () => {
