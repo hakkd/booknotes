@@ -50,6 +50,7 @@ app.post("/add", async (req, res) => {
             [title, Date.now(), review, rating]
         );
         res.redirect("/");
+        // TODO: add user to DB/link to review
     } catch (err) {
         console.log(err);
     }
