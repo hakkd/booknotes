@@ -1,5 +1,5 @@
 import express from "express";
-import pg from "postgres";
+import pg from "pg";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import axios from "axios";
@@ -12,7 +12,7 @@ const db = new pg.Client({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: 5432,
-  });
+});
 
 db.connect();
 
@@ -33,8 +33,11 @@ app.get("/", async (req, res) => {
     }
 });
 
+app.get("/new-review", (req, res) => {
+    res.render("new-review.ejs");
+});
+
 // TODO:
-// - /add post route
 // - /edit route
 // - /delete route
 // - some kind of sorting function
@@ -44,13 +47,14 @@ app.post("/add", async (req, res) => {
     const title = req.body.title;
     const review = req.body.review;
     const rating = req.body.rating;
+    console.log(req.body);
     try {
         await db.query(
             "INSERT INTO reviews (title, date_created, review, rating) VALUES ($1, to_timestamp($2), $3, $4)",
             [title, Date.now(), review, rating]
         );
-        res.redirect("/");
         // TODO: add user to DB/link to review
+        res.redirect("/");
     } catch (err) {
         console.log(err);
     }
