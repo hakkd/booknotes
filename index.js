@@ -27,7 +27,19 @@ app.use(express.static("public"));
 app.get("/", async (req, res) => {
     try {
         const result = await db.query("SELECT * FROM reviews");
-        res.render("index.ejs", {reviews: result.rows});
+        let reviews = [];
+        result.rows.forEach((row) => {
+            let review = {
+                title: row.title,
+                author: row.author,
+                review: row.review,
+                rating: row.rating,
+                isbn: row.isbn,
+                date: row.date_created,
+            }
+            reviews.push(review);
+        });
+        res.render("index.ejs", {reviews: reviews});
     } catch (err) {
         console.log(err);
     }
@@ -41,17 +53,18 @@ app.get("/new-review", (req, res) => {
 // - /edit route
 // - /delete route
 // - some kind of sorting function
-// use axios to get book covers from https://openlibrary.org/dev/docs/api/covers
 
 app.post("/add", async (req, res) => {
     const title = req.body.title;
+    const author = req.body.author;
     const review = req.body.review;
     const rating = req.body.rating;
+    const isbn = req.body.isbn;
     console.log(req.body);
     try {
         await db.query(
-            "INSERT INTO reviews (title, date_created, review, rating) VALUES ($1, to_timestamp($2), $3, $4)",
-            [title, Date.now(), review, rating]
+            "INSERT INTO reviews (title, date_created, review, rating, isbn, author) VALUES ($1, to_timestamp($2), $3, $4, $5, $6)",
+            [title, Date.now(), review, rating, isbn, author],
         );
         // TODO: add user to DB/link to review
         res.redirect("/");
