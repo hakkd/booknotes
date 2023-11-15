@@ -60,7 +60,7 @@
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
           <h4>About</h4>
-          <p class="text-body-secondary">This is a site for sharing book reviews. Read it, review it, rate it.</p>
+          <p class="text-body-secondary">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4>Contact</h4>
@@ -87,49 +87,37 @@
 
 <main>
 
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Your Book Review Destination</h1>
-        <p class="lead text-body-secondary">Read reviews about your favourite books!</p>
-        <p>
-        <a href="/new-review" class="btn btn-primary my-2">Post A Review</a>
-        <!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-        </p>
+    <form class="container py-4" action="/edit-review/<%=locals.review.id %>" method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">Book Title</label>
+            <input name=title type="text" class="form-control" value="<%=locals.review.title %>" required>
+        </div>
+        <div class="mb-3">
+          <label for="author" class="form-label">Book Author</label>
+          <input name=author type="text" class="form-control" value="<%=locals.review.author %>" required>
       </div>
-    </div>
-  </section>
-
-  <div class="album py-5 bg-body-tertiary">
-    <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <% locals.reviews.forEach((review) => { %>
-          <div class="col">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title><%=review.title%></title><image href="https://covers.openlibrary.org/b/isbn/<%=review.isbn%>.jpg" width="100%" height="100%"/></svg>
-              <div class="card-body">
-                <p class="card-text"><%=review.date%></p>
-                <b class="card-text"><%=review.title%></b>
-                <p class="card-text"><%=review.review%></p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a href="/view-review/<%=review.id %>" class="btn btn-sm btn-outline-secondary">View</a>
-                    <a href="/edit-review/<%=review.id %>" class="btn btn-sm btn-outline-secondary">Edit</a>
-                  </div>
-                  <p>
-                    <% for(var i = 0; i < review.rating; i++) { %>
-                      ⭐️
-                    <% } %>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% }) %>
-      </div>
-    </div>
-  </div>
+        <div class="mb-3">
+          <label for="isbn" class="form-label">Book ISBN</label>
+          <input name=isbn type="text" class="form-control" value="<%=locals.review.isbn %>" required>
+        </div>
+        <div class="mb-3">
+            <label for="review" class="form-label">Review (keep it concise! Up to 250 characters only)</label>
+            <textarea name="review" class="form-control" rows="3" maxlength="250" required><%=locals.review.review %></textarea>
+        </div> 
+        <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <select name="rating" class="form-control">
+                <option disabled selected hidden><%=locals.review.rating %></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form> 
 
 </main>
 

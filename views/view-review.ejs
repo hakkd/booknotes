@@ -60,7 +60,7 @@
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
           <h4>About</h4>
-          <p class="text-body-secondary">This is a site for sharing book reviews. Read it, review it, rate it.</p>
+          <p class="text-body-secondary">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4>Contact</h4>
@@ -87,50 +87,21 @@
 
 <main>
 
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Your Book Review Destination</h1>
-        <p class="lead text-body-secondary">Read reviews about your favourite books!</p>
-        <p>
-        <a href="/new-review" class="btn btn-primary my-2">Post A Review</a>
-        <!-- <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-        </p>
-      </div>
+    <div class="container py-4">
+      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title><%=review.title%></title><image href="https://covers.openlibrary.org/b/isbn/<%=review.isbn%>.jpg" width="100%" height="100%"/></svg>
+      <h1>Title:</h1>
+      <p><%=locals.review.title %></p>
+      <h2>Author:</h2>
+      <p><%=locals.review.author %></p>
+      <h2>ISBN Number</h2>
+      <p><%=locals.review.isbn %></p>
+      <h2>Review:</h2>
+      <p name="review"><%=locals.review.review %></p>
+      <h2>Rating:</h2>
+      <% for(var i = 0; i < locals.review.rating; i++) { %>
+        ⭐️
+      <% } %>
     </div>
-  </section>
-
-  <div class="album py-5 bg-body-tertiary">
-    <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <% locals.reviews.forEach((review) => { %>
-          <div class="col">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title><%=review.title%></title><image href="https://covers.openlibrary.org/b/isbn/<%=review.isbn%>.jpg" width="100%" height="100%"/></svg>
-              <div class="card-body">
-                <p class="card-text"><%=review.date%></p>
-                <b class="card-text"><%=review.title%></b>
-                <p class="card-text"><%=review.review%></p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a href="/view-review/<%=review.id %>" class="btn btn-sm btn-outline-secondary">View</a>
-                    <a href="/edit-review/<%=review.id %>" class="btn btn-sm btn-outline-secondary">Edit</a>
-                  </div>
-                  <p>
-                    <% for(var i = 0; i < review.rating; i++) { %>
-                      ⭐️
-                    <% } %>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% }) %>
-      </div>
-    </div>
-  </div>
-
 </main>
 
 <footer class="text-body-secondary py-5">
